@@ -25,15 +25,17 @@
 
 package jodd.mail;
 
-import jodd.util.StringPool;
 import jodd.net.MimeTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.mail.Flags;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EmailUtilTest {
 
@@ -60,11 +62,11 @@ class EmailUtilTest {
 
 		contentType = "text/html;\n\tcharset=\"us-ascii\"";
 		assertEquals(MimeTypes.MIME_TEXT_HTML, EmailUtil.extractMimeType(contentType));
-		assertEquals(StringPool.US_ASCII.toLowerCase(), EmailUtil.extractEncoding(contentType));
+		assertEquals(StandardCharsets.US_ASCII.name().toLowerCase(), EmailUtil.extractEncoding(contentType));
 
 		contentType = "TEXT/PLAIN; charset=US-ASCII; name=example.eml";
 		assertEquals(MimeTypes.MIME_TEXT_PLAIN.toUpperCase(), EmailUtil.extractMimeType(contentType));
-		assertEquals(StringPool.US_ASCII, EmailUtil.extractEncoding(contentType));
+		assertEquals(StandardCharsets.US_ASCII.name(), EmailUtil.extractEncoding(contentType));
 	}
 
 	@Test

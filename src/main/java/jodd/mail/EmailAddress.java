@@ -25,7 +25,6 @@
 
 package jodd.mail;
 
-import jodd.core.JoddCore;
 import jodd.util.StringUtil;
 
 import javax.mail.Address;
@@ -157,7 +156,7 @@ public class EmailAddress {
 	 */
 	public InternetAddress toInternetAddress() throws AddressException {
 		try {
-			return new InternetAddress(email, personalName, JoddCore.encoding);
+			return new InternetAddress(email, personalName, "UTF-8");
 		} catch (final UnsupportedEncodingException ueex) {
 			throw new AddressException(ueex.toString());
 		}

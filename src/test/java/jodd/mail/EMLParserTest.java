@@ -26,7 +26,6 @@
 package jodd.mail;
 
 import jodd.net.MimeTypes;
-import jodd.util.StringPool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +34,7 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -71,8 +71,8 @@ class EMLParserTest {
 		assertEquals("test!", email.subject());
 
 		// the time is specified in GMT zone
-		LocalDateTime jdt = LocalDateTime.of(2010, 3, 27, 12, 11, 21, 0);
-		Instant instant = jdt.atZone(ZoneId.of("GMT")).toInstant();
+		final LocalDateTime jdt = LocalDateTime.of(2010, 3, 27, 12, 11, 21, 0);
+		final Instant instant = jdt.atZone(ZoneId.of("GMT")).toInstant();
 
 		// compare
 		assertEquals(Date.from(instant), email.sentDate());
@@ -86,12 +86,12 @@ class EMLParserTest {
 		EmailMessage msg1 = messages.get(0);
 		assertEquals("Test", msg1.getContent().trim());
 		assertEquals(MimeTypes.MIME_TEXT_PLAIN, msg1.getMimeType());
-		assertEquals(StringPool.US_ASCII.toLowerCase(), msg1.getEncoding());
+		assertEquals(StandardCharsets.US_ASCII.name().toLowerCase(), msg1.getEncoding());
 
 		EmailMessage msg2 = messages.get(1);
 		assertTrue(msg2.getContent().contains("Test<o:p>"));
 		assertEquals(MimeTypes.MIME_TEXT_HTML, msg2.getMimeType());
-		assertEquals(StringPool.US_ASCII.toLowerCase(), msg2.getEncoding());
+		assertEquals(StandardCharsets.US_ASCII.name().toLowerCase(), msg2.getEncoding());
 
 		List<EmailAttachment<? extends DataSource>> attachments = email.attachments();
 		assertNotNull(attachments);
@@ -118,12 +118,12 @@ class EMLParserTest {
 		msg1 = messages.get(0);
 		assertEquals("test", msg1.getContent().trim());
 		assertEquals(MimeTypes.MIME_TEXT_PLAIN, msg1.getMimeType());
-		assertEquals(StringPool.US_ASCII.toLowerCase(), msg1.getEncoding());
+		assertEquals(StandardCharsets.US_ASCII.name().toLowerCase(), msg1.getEncoding());
 
 		msg2 = messages.get(1);
 		assertTrue(msg2.getContent().contains("test</TITLE>"));
 		assertEquals(MimeTypes.MIME_TEXT_HTML, msg2.getMimeType());
-		assertEquals(StringPool.US_ASCII.toLowerCase(), msg2.getEncoding());
+		assertEquals(StandardCharsets.US_ASCII.name().toLowerCase(), msg2.getEncoding());
 
 		attachments = email.attachments();
 		assertNotNull(attachments);

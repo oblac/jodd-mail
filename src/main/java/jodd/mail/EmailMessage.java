@@ -25,8 +25,6 @@
 
 package jodd.mail;
 
-import jodd.core.JoddCore;
-
 /**
  * Represents email message including the mime type and encoding.
  */
@@ -61,13 +59,13 @@ public class EmailMessage {
 	}
 
 	/**
-	 * Uses UTF-8 email content by default (as per {@link JoddCore#encoding}.
+	 * Uses UTF-8 email content by default.
 	 *
 	 * @param content  The content as a {@link String}.
 	 * @param mimeType The MIME type as a as a {@link String}.
 	 */
 	public EmailMessage(final String content, final String mimeType) {
-		this(content, mimeType, JoddCore.encoding);
+		this(content, mimeType, "UTF-8");
 	}
 
 	// ---------------------------------------------------------------- getters

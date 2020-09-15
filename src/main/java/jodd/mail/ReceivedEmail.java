@@ -25,8 +25,6 @@
 
 package jodd.mail;
 
-import jodd.util.StringPool;
-
 import javax.mail.Address;
 import javax.mail.Flags;
 import javax.mail.Flags.Flag;
@@ -41,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -223,7 +222,7 @@ public class ReceivedEmail extends CommonEmail<ReceivedEmail> {
 	 */
 	private void addStringContent(final Part part, final String content) throws MessagingException, UnsupportedEncodingException {
 		final String contentType = part.getContentType();
-		final String encoding = EmailUtil.extractEncoding(contentType, StringPool.US_ASCII);
+		final String encoding = EmailUtil.extractEncoding(contentType, StandardCharsets.US_ASCII.name());
 
 		final String disposition = part.getDisposition();
 

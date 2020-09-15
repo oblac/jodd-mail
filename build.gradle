@@ -33,12 +33,12 @@ plugins {
 
 repositories {
 	mavenCentral()
-	mavenLocal()
+//	mavenLocal()
 }
 
 group = 'org.jodd'
 //version = '6.0.0.' + timestamp() + "-SNAPSHOT"
-version = '6.0.0'
+version = '6.0.1'
 
 rootProject.description = 'Java Mail client'
 
@@ -54,7 +54,7 @@ java {
 
 dependencies {
 
-	implementation 'org.jodd:jodd-core:5.1.+'
+	implementation 'org.jodd:jodd-util:6.0.+'
 	implementation 'jakarta.mail:jakarta.mail-api:1.6.5'
 	implementation 'com.sun.mail:jakarta.mail:1.6.5'
 

@@ -25,8 +25,7 @@
 
 package jodd.mail;
 
-import jodd.core.JoddCore;
-import jodd.io.StreamUtil;
+import jodd.io.IOUtil;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -74,7 +73,7 @@ public class EMLParser extends EMLProperties<EMLParser> {
 	 */
 	public ReceivedEmail parse(final String emlContent) throws MessagingException {
 		try {
-			return parse(emlContent, JoddCore.encoding);
+			return parse(emlContent, "UTF-8");
 		} catch (final UnsupportedEncodingException ignore) {
 			return null;
 		}
@@ -106,7 +105,7 @@ public class EMLParser extends EMLProperties<EMLParser> {
 		try {
 			return parse(fileInputStream);
 		} finally {
-			StreamUtil.close(fileInputStream);
+			IOUtil.close(fileInputStream);
 		}
 	}
 
@@ -126,7 +125,7 @@ public class EMLParser extends EMLProperties<EMLParser> {
 			final MimeMessage message = new MimeMessage(getSession(), emlContentInputStream);
 			return new ReceivedEmail(message, false, null);
 		} finally {
-			StreamUtil.close(emlContentInputStream);
+			IOUtil.close(emlContentInputStream);
 		}
 	}
 }

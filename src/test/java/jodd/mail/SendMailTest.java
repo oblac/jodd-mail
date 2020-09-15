@@ -25,7 +25,7 @@
 
 package jodd.mail;
 
-import jodd.io.StreamUtil;
+import jodd.io.IOUtil;
 import jodd.net.MimeTypes;
 import org.junit.jupiter.api.Test;
 
@@ -293,7 +293,7 @@ class SendMailTest {
 
 	private byte[] read(final DataSource dataSource) throws IOException {
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		StreamUtil.copy(dataSource.getInputStream(), os);
+		IOUtil.copy(dataSource.getInputStream(), os);
 		return os.toByteArray();
 	}
 }

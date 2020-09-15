@@ -25,7 +25,6 @@
 
 package jodd.mail;
 
-import jodd.core.JoddCore;
 import jodd.util.CharUtil;
 import jodd.util.StringPool;
 
@@ -33,8 +32,6 @@ import javax.mail.*;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeUtility;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Properties;
 
 /**
@@ -102,7 +99,7 @@ public class EmailUtil {
 	 *
 	 * @param contentType     content type.
 	 * @param defaultEncoding Default encoding to be used if extract returns {@code null}.
-	 *                        If defaultEncoding is {@code null}, {@link JoddCore#encoding} will be used.
+	 *                        If defaultEncoding is {@code null}, default encoding will be used.
 	 * @return Encoding from the content type.
 	 * @see #extractEncoding(String)
 	 */
@@ -111,7 +108,7 @@ public class EmailUtil {
 
 		if (encoding == null) {
 			if (defaultEncoding == null) {
-				defaultEncoding = JoddCore.encoding;
+				defaultEncoding = "UTF-8";
 			}
 			encoding = defaultEncoding;
 		}

@@ -25,11 +25,11 @@
 
 package jodd.mail;
 
-import jodd.io.FastByteArrayOutputStream;
-import jodd.io.StreamUtil;
+import jodd.io.IOUtil;
 
 import javax.activation.DataSource;
 import javax.mail.internet.MimeUtility;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -255,11 +255,11 @@ public class EmailAttachment<T extends DataSource> {
 	 * @return byte array with content of the attachment.
 	 */
 	public byte[] toByteArray() {
-		final FastByteArrayOutputStream out;
+		final ByteArrayOutputStream out;
 		if (size != -1) {
-			out = new FastByteArrayOutputStream(size);
+			out = new ByteArrayOutputStream(size);
 		} else {
-			out = new FastByteArrayOutputStream();
+			out = new ByteArrayOutputStream();
 		}
 		writeToStream(out);
 		return out.toByteArray();
@@ -277,14 +277,14 @@ public class EmailAttachment<T extends DataSource> {
 			input = getDataSource().getInputStream();
 			output = new FileOutputStream(destination);
 
-			StreamUtil.copy(input, output);
+			IOUtil.copy(input, output);
 		}
 		catch (final IOException ioex) {
 			throw new MailException(ioex);
 		}
 		finally {
-			StreamUtil.close(input);
-			StreamUtil.close(output);
+			IOUtil.close(input);
+			IOUtil.close(output);
 		}
 	}
 
@@ -298,13 +298,13 @@ public class EmailAttachment<T extends DataSource> {
 		try {
 			input = getDataSource().getInputStream();
 
-			StreamUtil.copy(input, out);
+			IOUtil.copy(input, out);
 		}
 		catch (final IOException ioex) {
 			throw new MailException(ioex);
 		}
 		finally {
-			StreamUtil.close(input);
+			IOUtil.close(input);
 		}
 	}
 
