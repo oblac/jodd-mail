@@ -38,7 +38,7 @@ repositories {
 
 group = 'org.jodd'
 //version = '6.0.0.' + timestamp() + "-SNAPSHOT"
-version = '6.0.2'
+version = '6.0.3'
 
 rootProject.description = 'Java Mail client'
 
@@ -55,8 +55,8 @@ java {
 dependencies {
 
 	api 'org.jodd:jodd-util:6.0.+'
-	api 'jakarta.mail:jakarta.mail-api:1.6.5'
-	api 'com.sun.mail:jakarta.mail:1.6.5'
+	implementation 'jakarta.mail:jakarta.mail-api:1.6.5'
+	implementation 'com.sun.mail:jakarta.mail:1.6.5'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.+'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.+'
