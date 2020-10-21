@@ -25,13 +25,7 @@
 
 package jodd.mail;
 
-import javax.mail.FetchProfile;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
+import javax.mail.*;
 import java.io.File;
 import java.util.function.Consumer;
 
@@ -104,13 +98,23 @@ public class ReceiveMailSession extends MailSession<Store> {
 	 * @param folderName Folder to open
 	 */
 	public void useFolder(final String folderName) {
+		useFolder(folderName, Folder.READ_WRITE);
+	}
+
+	/**
+	 * Opens new folder and closes previously opened folder with a specific mode.
+	 *
+	 * @param folderName Folder to open
+	 * @param mode Mode to set
+	 */
+	public void useFolder(final String folderName, final int mode) {
 		closeFolderIfOpened(folder);
 
 		try {
 			this.folderName = folderName;
 			this.folder = getService().getFolder(folderName);
 			try {
-				folder.open(Folder.READ_WRITE);
+				folder.open(mode);
 			} catch (final MailException ignore) {
 				folder.open(Folder.READ_ONLY);
 			}
