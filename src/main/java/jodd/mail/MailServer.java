@@ -51,6 +51,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 	public static final String MAIL_IMAP_PORT = "mail.imap.port";
 	public static final String MAIL_IMAP_HOST = "mail.imap.host";
 	public static final String MAIL_IMAP_PARTIALFETCH = "mail.imap.partialfetch";
+	public static final String MAIL_IMAP_PEEK = "mail.imap.peek";
 
 	public static final String MAIL_IMAP_SOCKET_FACTORY_PORT = "mail.imap.socketFactory.port";
 	public static final String MAIL_IMAP_SOCKET_FACTORY_CLASS = "mail.imap.socketFactory.class";
