@@ -26,6 +26,7 @@
 package jodd.mail;
 
 import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetup;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import org.junit.jupiter.api.Test;
 
@@ -38,10 +39,16 @@ class FilterGreenIMAPTest {
 	private static final String GREEN = "green";
 	private static final String PWD = "pwd";
 	private static final String LOCALHOST = "localhost";
+	private static final long TIMEOUT_IN_MS = 2000L;
 
 	@Test
 	void testEnvelopes_FilterByMessageId() {
-		final GreenMail greenMail = new GreenMail(ServerSetupTest.ALL);
+		final ServerSetup[] serverSetups = ServerSetupTest.ALL;
+		for (ServerSetup setup : serverSetups){
+			setup.setServerStartupTimeout(TIMEOUT_IN_MS);
+		}
+
+		final GreenMail greenMail = new GreenMail(serverSetups);
 		greenMail.setUser(GREEN_MAIL_COM, GREEN, PWD);
 		greenMail.start();
 

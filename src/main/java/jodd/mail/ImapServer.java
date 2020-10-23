@@ -59,6 +59,7 @@ public class ImapServer extends MailServer<ReceiveMailSession> {
 		props.setProperty(MAIL_IMAP_HOST, host);
 		props.setProperty(MAIL_IMAP_PORT, String.valueOf(port));
 		props.setProperty(MAIL_IMAP_PARTIALFETCH, StringPool.FALSE);
+		props.setProperty(MAIL_IMAP_PEEK, StringPool.TRUE);
 
 		if (timeout > 0) {
 			final String timeoutValue = String.valueOf(timeout);
