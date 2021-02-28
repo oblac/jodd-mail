@@ -29,6 +29,7 @@ plugins {
 	id 'jacoco'
 	id 'signing'
 	id 'io.codearte.nexus-staging' version '0.21.2'
+	id 'biz.aQute.bnd.builder' version '5.2.0'
 }
 
 repositories {
@@ -38,7 +39,7 @@ repositories {
 
 group = 'org.jodd'
 //version = '6.0.0.' + timestamp() + "-SNAPSHOT"
-version = '6.0.4'
+version = '6.0.5'
 
 rootProject.description = 'Java Mail client'
 
@@ -64,6 +65,7 @@ dependencies {
 }
 
 jar {
+	bnd ('-exportcontents': 'jodd.*')
 	manifest {
 		attributes(
 				'Implementation-Title': project.name,
