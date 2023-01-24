@@ -31,8 +31,12 @@ import jodd.util.StringPool;
 import javax.mail.*;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeUtility;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 /**
  * Email utilities.
@@ -158,10 +162,31 @@ public class EmailUtil {
 	 * @param protocol          Protocol such as {@link ImapServer#PROTOCOL_IMAP} or {@link Pop3Server#PROTOCOL_POP3}.
 	 * @param sessionProperties Session properties to use.
 	 * @param authenticator     Authenticator which contains necessary authentication for server.
+	 * @param debugConsumer
 	 * @return {@link ReceiveMailSession}.
 	 */
-	public static ReceiveMailSession createSession(final String protocol, final Properties sessionProperties, final Authenticator authenticator, final File attachmentStorage) {
+	public static ReceiveMailSession createSession(final String protocol, final Properties sessionProperties, final Authenticator authenticator, final File attachmentStorage, Consumer<String> debugConsumer) {
 		final Session session = Session.getInstance(sessionProperties, authenticator);
+		if(debugConsumer!=null) {
+			session.setDebugOut(new PrintStream(new ByteArrayOutputStream() {
+				@Override
+				public void flush() throws IOException {
+					String record;
+					synchronized (this) {
+						super.flush();
+						record = this.toString().trim();
+						super.reset();
+
+						if (record.length() == 0 || record.equals(System.lineSeparator())) {
+							// avoid empty records
+							return;
+						}
+
+						debugConsumer.accept(record);
+					}
+				}
+			},true));
+		}
 		final Store store;
 		try {
 			store = session.getStore(protocol);

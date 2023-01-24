@@ -91,7 +91,8 @@ public class ImapServer extends MailServer<ReceiveMailSession> {
 			PROTOCOL_IMAP,
 			createSessionProperties(),
 			authenticator,
-			attachmentStorage);
+			attachmentStorage,
+				debugConsumer);
 	}
 
 }
