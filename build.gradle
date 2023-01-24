@@ -29,7 +29,7 @@ plugins {
 	id 'jacoco'
 	id 'signing'
 	id 'io.codearte.nexus-staging' version '0.21.2'
-	id 'biz.aQute.bnd.builder' version '5.2.0'
+	id 'biz.aQute.bnd.builder' version '6.4.0'
 }
 
 repositories {
