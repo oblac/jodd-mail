@@ -30,6 +30,7 @@ import javax.mail.Session;
 import java.io.File;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 public abstract class MailServer<MailSessionImpl extends MailSession> {
 
@@ -91,6 +92,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 	protected final File attachmentStorage;
 
 	protected final boolean debugMode;
+	protected final Consumer<String> debugConsumer;
 
 	/**
 	 * Whether strict address checking is turned on.
@@ -117,6 +119,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 		this.timeout = builder.timeout;
 		this.strictAddress = builder.strictAddress;
 		this.debugMode = builder.debug;
+		this.debugConsumer = builder.debugConsumer;
 		this.customProperties = builder.customProperties;
 	}
 
@@ -176,6 +179,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 		private Authenticator authenticator;
 		private File attachmentStorage;
 		private boolean debug;
+		private Consumer<String> debugConsumer;
 		private int timeout = 0;
 		private boolean strictAddress = true;
 		private Properties customProperties = new Properties();
@@ -258,7 +262,16 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 			return this;
 		}
 
-
+		/**
+		 * Set debug consumer
+		 *
+		 * @param consumer a String consumer to be called for debug logging. By default, this is null.
+		 * @return this
+		 */
+		public Builder debugConsumer(Consumer<String> consumer) {
+			this.debugConsumer = consumer;
+			return this;
+		}
 		/**
 		 * Defines timeout value in milliseconds for all mail-related operations.
 		 *
@@ -325,5 +338,6 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 			}
 			return new SmtpServer(this);
 		}
+
 	}
 }

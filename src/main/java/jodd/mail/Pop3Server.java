@@ -87,7 +87,7 @@ public class Pop3Server extends MailServer<ReceiveMailSession> {
 	 * {@inheritDoc}
 	 *
 	 * @return {@link ReceiveMailSession}
-	 * @see EmailUtil#createSession(String, Properties, Authenticator, File)
+	 * @see EmailUtil#createSession(String, Properties, Authenticator, File, java.util.function.Consumer)
 	 */
 	@Override
 	public ReceiveMailSession createSession() {
@@ -95,7 +95,7 @@ public class Pop3Server extends MailServer<ReceiveMailSession> {
 			PROTOCOL_POP3,
 			createSessionProperties(),
 			authenticator,
-			attachmentStorage);
+			attachmentStorage, debugConsumer);
 	}
 
 }

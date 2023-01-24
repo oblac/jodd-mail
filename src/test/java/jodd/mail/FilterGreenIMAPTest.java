@@ -86,7 +86,7 @@ class FilterGreenIMAPTest {
 			final ImapServer imapServer = MailServer.create()
 				.host(LOCALHOST)
 				.port(3143)
-				.auth(GREEN, PWD)
+				.auth(GREEN, PWD).debugMode(true).debugConsumer(a->System.err.println("CONSUMED!" + a))
 				.buildImapMailServer();
 
 			final ReceiveMailSession session = imapServer.createSession();
