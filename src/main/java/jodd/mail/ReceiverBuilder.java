@@ -25,8 +25,8 @@
 
 package jodd.mail;
 
-import javax.mail.Flags;
-import javax.mail.MessagingException;
+import jakarta.mail.Flags;
+import jakarta.mail.MessagingException;
 
 /**
  * Fluent builder
@@ -35,8 +35,8 @@ public class ReceiverBuilder {
 
 	private final ReceiveMailSession session;
 	private EmailFilter filter;
-	private Flags flagsToSet = new Flags();
-	private Flags flagsToUnset = new Flags();
+	private final Flags flagsToSet = new Flags();
+	private final Flags flagsToUnset = new Flags();
 	private boolean envelopeOnly;
 	private String targetFolder;
 	private String fromFolder;

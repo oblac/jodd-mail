@@ -24,7 +24,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 package jodd.mail;
 
-import javax.mail.Session;
+import jakarta.mail.Session;
+
 import java.util.Properties;
 
 abstract class EMLProperties<T extends EMLProperties<T>> {

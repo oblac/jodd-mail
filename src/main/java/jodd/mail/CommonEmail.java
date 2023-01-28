@@ -25,12 +25,12 @@
 
 package jodd.mail;
 
+import jakarta.activation.DataSource;
+import jakarta.mail.Address;
 import jodd.util.ArraysUtil;
 import jodd.net.MimeTypes;
 
-import javax.activation.DataSource;
-import javax.mail.Address;
-import javax.mail.Header;
+import jakarta.mail.Header;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -448,7 +448,6 @@ public abstract class CommonEmail<T extends CommonEmail<T>> {
 	 * If the subject contains non US-ASCII characters, it will be encoded using the specified charset.
 	 * If the subject contains only US-ASCII characters, no encoding is done and it is used as-is.
 	 * The application must ensure that the subject does not contain any line breaks.
-	 * See {@link javax.mail.internet.MimeMessage#setSubject(String, String)}.
 	 *
 	 * @param subject  The message subject
 	 * @param encoding The encoding for the message subject.

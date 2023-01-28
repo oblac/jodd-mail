@@ -27,10 +27,10 @@ package jodd.mail;
 
 import jodd.util.StringUtil;
 
-import javax.mail.Address;
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import jakarta.mail.Address;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
 
 /**

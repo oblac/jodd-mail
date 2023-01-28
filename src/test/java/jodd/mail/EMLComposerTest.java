@@ -25,11 +25,9 @@
 
 package jodd.mail;
 
-import jdk.nashorn.internal.runtime.events.RecompilationEvent;
-import org.junit.jupiter.api.BeforeEach;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 
-import javax.mail.MessagingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -56,7 +54,7 @@ class EMLComposerTest {
 		final URL data = EMLComposerTest.class.getResource("test");
 		final File emlFile = new File(data.getFile(), "simple.eml");
 
-		ReceivedEmail email = EMLParser.create().parse(emlFile);
+		final ReceivedEmail email = EMLParser.create().parse(emlFile);
 
 		final String eml = EMLComposer.create().compose(email);
 

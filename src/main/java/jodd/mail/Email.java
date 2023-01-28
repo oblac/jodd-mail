@@ -25,9 +25,9 @@
 
 package jodd.mail;
 
+import jakarta.mail.Address;
 import jodd.util.ArraysUtil;
 
-import javax.mail.Address;
 import java.util.Date;
 
 /**

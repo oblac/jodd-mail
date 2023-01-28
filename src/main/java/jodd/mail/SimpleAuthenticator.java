@@ -25,8 +25,8 @@
 
 package jodd.mail;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
 
 /**
  * Performs simple authentication when the server requires it.

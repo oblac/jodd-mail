@@ -25,12 +25,12 @@
 
 package jodd.mail;
 
-import com.sun.mail.imap.IMAPSSLStore;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.URLName;
 import jodd.util.StringPool;
+import org.eclipse.angus.mail.imap.IMAPSSLStore;
 
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.URLName;
 import java.util.Properties;
 
 /**
@@ -62,27 +62,26 @@ public class ImapSslServer extends ImapServer {
 	 * Returns email store.
 	 *
 	 * @param session {@link Session}
-	 * @return {@link com.sun.mail.imap.IMAPSSLStore}
+	 * @return {@link IMAPSSLStore}
 	 */
 	@Override
 	protected IMAPSSLStore getStore(final Session session) {
-		SimpleAuthenticator simpleAuthenticator = (SimpleAuthenticator) authenticator;
+		final SimpleAuthenticator simpleAuthenticator = (SimpleAuthenticator) authenticator;
 
 		final URLName url;
 
 		if (simpleAuthenticator == null) {
 			url = new URLName(
-				PROTOCOL_IMAP,
-				host, port,
-				StringPool.EMPTY, null, null);
-		}
-		else {
+					PROTOCOL_IMAP,
+					host, port,
+					StringPool.EMPTY, null, null);
+		} else {
 			final PasswordAuthentication pa = simpleAuthenticator.getPasswordAuthentication();
 			url = new URLName(
-				PROTOCOL_IMAP,
-				host, port,
-				StringPool.EMPTY,
-				pa.getUserName(), pa.getPassword());
+					PROTOCOL_IMAP,
+					host, port,
+					StringPool.EMPTY,
+					pa.getUserName(), pa.getPassword());
 		}
 
 		return new IMAPSSLStore(session, url);

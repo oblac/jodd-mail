@@ -25,9 +25,9 @@
 
 package jodd.mail;
 
+import jakarta.mail.internet.InternetAddress;
 import jodd.util.StringPool;
 
-import javax.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

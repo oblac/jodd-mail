@@ -25,16 +25,16 @@
 
 package jodd.mail;
 
-import javax.mail.Address;
-import javax.mail.Flags;
-import javax.mail.Flags.Flag;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimePart;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.mail.Address;
+import jakarta.mail.Flags;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.Part;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimePart;
+import jakarta.mail.util.ByteArrayDataSource;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +43,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static jakarta.mail.Flags.*;
 
 /**
  * Received email.

@@ -25,10 +25,10 @@
 
 package jodd.mail;
 
+import jakarta.mail.Flags;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import javax.mail.Flags;
 import java.util.Arrays;
 
 import static jodd.mail.EmailFilter.filter;
@@ -38,21 +38,21 @@ class GmailTest {
 	@Test
 	@Disabled("Requires Gmail")
 	void testGoogle_receiveUnseen() {
-		ImapServer imapServer = MailServer.create()
-			.host("imap.gmail.com")
-			.port(993)
-			.ssl(true)
-			.auth("gmail_username", "gmail_password")
-			.buildImapMailServer();
+		final ImapServer imapServer = MailServer.create()
+				.host("imap.gmail.com")
+				.port(993)
+				.ssl(true)
+				.auth("gmail_username", "gmail_password")
+				.buildImapMailServer();
 
-		ReceiveMailSession session = imapServer.createSession();
+		final ReceiveMailSession session = imapServer.createSession();
 		session.open();
 
-		ReceivedEmail[] mails = session.receive()
-			.filter(filter().flag(Flags.Flag.SEEN, false))
-			.unmark(Flags.Flag.SEEN)
-			.fromFolder("INBOX")
-			.get();
+		final ReceivedEmail[] mails = session.receive()
+				.filter(filter().flag(Flags.Flag.SEEN, false))
+				.unmark(Flags.Flag.SEEN)
+				.fromFolder("INBOX")
+				.get();
 
 		System.out.println(mails.length);
 

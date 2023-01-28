@@ -25,11 +25,11 @@
 
 package jodd.mail;
 
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
 import jodd.util.StringPool;
 
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
 import java.util.Properties;
 
 /**

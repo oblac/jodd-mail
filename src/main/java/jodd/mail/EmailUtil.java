@@ -25,12 +25,18 @@
 
 package jodd.mail;
 
+import jakarta.mail.Authenticator;
+import jakarta.mail.Flags;
+import jakarta.mail.MessagingException;
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Part;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeUtility;
 import jodd.util.CharUtil;
 import jodd.util.StringPool;
 
-import javax.mail.*;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeUtility;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

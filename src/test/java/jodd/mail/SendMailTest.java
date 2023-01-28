@@ -25,20 +25,20 @@
 
 package jodd.mail;
 
+import jakarta.activation.DataSource;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.util.ByteArrayDataSource;
 import jodd.io.IOUtil;
 import jodd.net.MimeTypes;
 import org.junit.jupiter.api.Test;
 
-import javax.activation.DataSource;
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static jakarta.mail.Message.RecipientType;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,10 +63,10 @@ class SendMailTest {
 	@Test
 	void testFromToBccCc() throws MessagingException {
 		final Email email = Email.create()
-			.from(FROM_EXAMPLE_COM)
-			.to(TO1_EXAMPLE_COM).to("Major Tom", "to2@example.com")
-			.cc(CC1_EXAMPLE_COM).cc("Major Carson", "cc2@example.com")
-			.bcc("Major Ben", "bcc1@example.com").bcc(BCC2_EXAMPLE_COM);
+				.from(FROM_EXAMPLE_COM)
+				.to(TO1_EXAMPLE_COM).to("Major Tom", "to2@example.com")
+				.cc(CC1_EXAMPLE_COM).cc("Major Carson", "cc2@example.com")
+				.bcc("Major Ben", "bcc1@example.com").bcc(BCC2_EXAMPLE_COM);
 
 		final Message message = createMessage(email);
 
@@ -91,10 +91,10 @@ class SendMailTest {
 	@Test
 	void testSimpleText() throws MessagingException, IOException {
 		final Email email = Email.create()
-			.from(FROM_EXAMPLE_COM)
-			.to(TO_EXAMPLE_COM)
-			.subject(SUB)
-			.textMessage(HELLO);
+				.from(FROM_EXAMPLE_COM)
+				.to(TO_EXAMPLE_COM)
+				.subject(SUB)
+				.textMessage(HELLO);
 
 		final Message message = createMessage(email);
 
@@ -107,10 +107,10 @@ class SendMailTest {
 	@Test
 	void testSimpleTextWithCyrilic() throws MessagingException, IOException {
 		final Email email = Email.create()
-			.from("Тијана Милановић <t@gmail.com>")
-			.to("Јодд <i@jodd.com>")
-			.subject("Здраво!")
-			.textMessage("шта радиш?");
+				.from("Тијана Милановић <t@gmail.com>")
+				.to("Јодд <i@jodd.com>")
+				.subject("Здраво!")
+				.textMessage("шта радиш?");
 
 		final Message message = createMessage(email);
 
@@ -126,11 +126,11 @@ class SendMailTest {
 	@Test
 	void testTextHtml() throws MessagingException, IOException {
 		final Email email = Email.create()
-			.from(FROM_EXAMPLE_COM)
-			.to(TO_EXAMPLE_COM)
-			.subject(SUB)
-			.textMessage(HELLO)
-			.htmlMessage("<html><body><h1>Hey!</h1></body></html>");
+				.from(FROM_EXAMPLE_COM)
+				.to(TO_EXAMPLE_COM)
+				.subject(SUB)
+				.textMessage(HELLO)
+				.htmlMessage("<html><body><h1>Hey!</h1></body></html>");
 
 		final Message message = createMessage(email);
 
@@ -165,13 +165,13 @@ class SendMailTest {
 	@Test
 	void testTextHtmlEmbedAttach1() throws MessagingException, IOException {
 		final Email email = Email.create()
-			.from(FROM_EXAMPLE_COM)
-			.to(TO_EXAMPLE_COM)
-			.subject(SUB)
-			.textMessage(HELLO)
-			.htmlMessage("<html><body><h1>Hey!</h1><img src='cid:c.png'></body></html>")
-			.embeddedAttachment(EmailAttachment.with().name(C_PNG).content(BYTES_1_7))
-			.attachment(EmailAttachment.with().name(FILE_ZIP).content(BYTES_11_15));
+				.from(FROM_EXAMPLE_COM)
+				.to(TO_EXAMPLE_COM)
+				.subject(SUB)
+				.textMessage(HELLO)
+				.htmlMessage("<html><body><h1>Hey!</h1><img src='cid:c.png'></body></html>")
+				.embeddedAttachment(EmailAttachment.with().name(C_PNG).content(BYTES_1_7))
+				.attachment(EmailAttachment.with().name(FILE_ZIP).content(BYTES_11_15));
 
 		assertEmail(email);
 	}
@@ -188,24 +188,24 @@ class SendMailTest {
 		email.message(testMessage);
 
 		final EmailMessage htmlMessage = new EmailMessage(
-			"<html><body><h1>Hey!</h1><img src='cid:c.png'></body></html>",
-			MimeTypes.MIME_TEXT_HTML);
+				"<html><body><h1>Hey!</h1><img src='cid:c.png'></body></html>",
+				MimeTypes.MIME_TEXT_HTML);
 		email.message(htmlMessage);
 
 		final EmailAttachment<ByteArrayDataSource> embeddedAttachment = EmailAttachment.with()
-			.content(BYTES_1_7, IMAGE_PNG)
-			.name(C_PNG)
-			.contentId(C_PNG)
-			.inline(true)
-			.buildByteArrayDataSource();
+				.content(BYTES_1_7, IMAGE_PNG)
+				.name(C_PNG)
+				.contentId(C_PNG)
+				.inline(true)
+				.buildByteArrayDataSource();
 
 		embeddedAttachment.setEmbeddedMessage(htmlMessage);
 		email.embeddedAttachment(embeddedAttachment);
 
 		final EmailAttachmentBuilder attachmentBuilder = EmailAttachment.with()
-			.content(BYTES_11_15, APPLICATION_ZIP)
-			.name(FILE_ZIP)
-			.contentId(FILE_ZIP);
+				.content(BYTES_11_15, APPLICATION_ZIP)
+				.name(FILE_ZIP)
+				.contentId(FILE_ZIP);
 		email.attachment(attachmentBuilder);
 
 		assertEmail(email);
@@ -213,25 +213,25 @@ class SendMailTest {
 
 	@Test
 	void testHtmlAndOneAttachment() throws MessagingException, IOException {
-		Email email = Email.create()
-			.from("inf0@jodd.org")
-			.to("ig0r@gmail.com")
-			.subject("test6")
-			.textMessage("Hello!")
-			.attachment(EmailAttachment.with().content(BYTES_11_15, APPLICATION_ZIP));
+		final Email email = Email.create()
+				.from("inf0@jodd.org")
+				.to("ig0r@gmail.com")
+				.subject("test6")
+				.textMessage("Hello!")
+				.attachment(EmailAttachment.with().content(BYTES_11_15, APPLICATION_ZIP));
 
-		Message message = createMessage(email);
+		final Message message = createMessage(email);
 
 		// wrapper
 		final MimeMultipart multipart = (MimeMultipart) message.getContent();
 		assertEquals(2, multipart.getCount());
 
 		// inner content #1
-		MimeBodyPart mimeBodyPart = (MimeBodyPart) multipart.getBodyPart(0);
+		final MimeBodyPart mimeBodyPart = (MimeBodyPart) multipart.getBodyPart(0);
 		final MimeMultipart mimeMultipart = (MimeMultipart) mimeBodyPart.getContent();
 		assertEquals(1, mimeMultipart.getCount());
 
-		MimeBodyPart bodyPart = (MimeBodyPart) mimeMultipart.getBodyPart(0);
+		final MimeBodyPart bodyPart = (MimeBodyPart) mimeMultipart.getBodyPart(0);
 		assertEquals("Hello!", bodyPart.getContent());
 	}
 
@@ -286,7 +286,7 @@ class SendMailTest {
 		assertArrayEquals(BYTES_11_15, read(dataSource));
 	}
 
-	private Message createMessage(final Email email) throws MessagingException {
+	private static Message createMessage(final Email email) throws MessagingException {
 		final SendMailSession testSendMailSession = new SendMailSession(null, null);
 		return testSendMailSession.createMessage(email);
 	}

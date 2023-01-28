@@ -25,12 +25,12 @@
 
 package jodd.mail;
 
-import com.sun.mail.pop3.POP3SSLStore;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.URLName;
 import jodd.util.StringPool;
+import org.eclipse.angus.mail.pop3.POP3SSLStore;
 
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.URLName;
 import java.util.Properties;
 
 /**
@@ -68,18 +68,17 @@ public class Pop3SslServer extends Pop3Server {
 
 		if (simpleAuthenticator == null) {
 			url = new URLName(
-				PROTOCOL_POP3,
-				host, port,
-				StringPool.EMPTY,
-				null, null);
-		}
-		else {
+					PROTOCOL_POP3,
+					host, port,
+					StringPool.EMPTY,
+					null, null);
+		} else {
 			final PasswordAuthentication pa = simpleAuthenticator.getPasswordAuthentication();
 			url = new URLName(
-				PROTOCOL_POP3,
-				host, port,
-				StringPool.EMPTY,
-				pa.getUserName(), pa.getPassword());
+					PROTOCOL_POP3,
+					host, port,
+					StringPool.EMPTY,
+					pa.getUserName(), pa.getPassword());
 		}
 
 		return new POP3SSLStore(session, url);

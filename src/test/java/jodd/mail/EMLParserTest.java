@@ -25,12 +25,12 @@
 
 package jodd.mail;
 
+import jakarta.activation.DataSource;
+import jakarta.mail.MessagingException;
 import jodd.net.MimeTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.activation.DataSource;
-import javax.mail.MessagingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;

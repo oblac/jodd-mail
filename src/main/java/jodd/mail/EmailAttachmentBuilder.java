@@ -25,13 +25,13 @@
 
 package jodd.mail;
 
+import jakarta.mail.util.ByteArrayDataSource;
 import jodd.io.FileNameUtil;
 import jodd.io.FileUtil;
 import jodd.net.MimeTypes;
 
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

@@ -24,12 +24,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 package jodd.mail;
 
+import jakarta.activation.DataSource;
 import jodd.mail.fixture.GreenMailServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.activation.DataSource;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -69,35 +69,35 @@ class EmailGreenTest {
 	void testInlineAttachmentAfterSending() {
 		// create Email
 		final Email sentEmail = Email.create()
-			.from("Jodd", "jodd@use.me")
-			.to(GreenMailServer.GREEN_MAIL_COM)
-			.textMessage("Hello")
-			.htmlMessage("Hi!")
+				.from("Jodd", "jodd@use.me")
+				.to(GreenMailServer.GREEN_MAIL_COM)
+				.textMessage("Hello")
+				.htmlMessage("Hi!")
 
-			.attachment(EmailAttachment.with()
-				.name(ZERO)
-				.content(BYTES_7_8_9)
-				.inline(false))
+				.attachment(EmailAttachment.with()
+						.name(ZERO)
+						.content(BYTES_7_8_9)
+						.inline(false))
 
-			.attachment(EmailAttachment.with()
-				.name(ONE)
-				.content(BYTES_4_5_6)
-				.inline(false))
+				.attachment(EmailAttachment.with()
+						.name(ONE)
+						.content(BYTES_4_5_6)
+						.inline(false))
 
-			.attachment(EmailAttachment.with()
-				.name(TWO)
-				.content(BYTES_1_2_3)
-				.contentId(CID_1))
+				.attachment(EmailAttachment.with()
+						.name(TWO)
+						.content(BYTES_1_2_3)
+						.contentId(CID_1))
 
-			.embeddedAttachment(EmailAttachment.with()
-				.content(BYTES_0_1_0)
-				.inline(true))
+				.embeddedAttachment(EmailAttachment.with()
+						.content(BYTES_0_1_0)
+						.inline(true))
 
-			// https://github.com/oblac/jodd/issues/546
-			.embeddedAttachment(EmailAttachment.with()
-				.content(BYTES_10_11_12)
-				.name(THREE)
-				.contentId(CID_1));
+				// https://github.com/oblac/jodd/issues/546
+				.embeddedAttachment(EmailAttachment.with()
+						.content(BYTES_10_11_12)
+						.name(THREE)
+						.contentId(CID_1));
 		// send
 		{
 			final SmtpServer smtpServer = MailServer.create()
@@ -118,10 +118,10 @@ class EmailGreenTest {
 
 		{
 			final Pop3Server popServer = MailServer.create()
-				.host(GreenMailServer.HOST)
-				.port(GreenMailServer.POP3_PORT)
-				.auth(GreenMailServer.USER, GreenMailServer.PASSWORD)
-				.buildPop3MailServer();
+					.host(GreenMailServer.HOST)
+					.port(GreenMailServer.POP3_PORT)
+					.auth(GreenMailServer.USER, GreenMailServer.PASSWORD)
+					.buildPop3MailServer();
 			final ReceiveMailSession session = popServer.createSession();
 			session.open();
 			receivedEmails = session.receiveEmail();
@@ -140,11 +140,11 @@ class EmailGreenTest {
 		checkAttachments(sentEmail.attachments(), receivedEmail.attachments());
 	}
 
-	private void checkFrom(final CommonEmail email) {
+	private static void checkFrom(final CommonEmail email) {
 		assertEquals(JODD_USE_ME, email.from().toString());
 	}
 
-	private void checkTo(final CommonEmail email) {
+	private static void checkTo(final CommonEmail email) {
 		assertEquals(GreenMailServer.GREEN_MAIL_COM, email.to()[0].toString());
 	}
 
@@ -180,7 +180,7 @@ class EmailGreenTest {
 		checkAttachmentInfo(sentAttachments, 4, receivedAttachments, 1, name, data, true, true);
 	}
 
-	private void checkSize(final List<EmailAttachment<? extends DataSource>> attachments) {
+	private static void checkSize(final List<EmailAttachment<? extends DataSource>> attachments) {
 		assertEquals(5, attachments.size());
 	}
 

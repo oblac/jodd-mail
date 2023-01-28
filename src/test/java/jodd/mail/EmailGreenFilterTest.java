@@ -25,12 +25,11 @@
 
 package jodd.mail;
 
+import jakarta.mail.Flags;
 import jodd.mail.fixture.GreenMailServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.mail.Flags;
 
 import static jodd.mail.EmailFilter.filter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,24 +52,24 @@ class EmailGreenFilterTest {
 	@Test
 	void testFilterEmails() {
 		final Email email1 = Email.create()
-			.from("Jodd", "jodd@use.me")
-			.to(GreenMailServer.GREEN_MAIL_COM)
-			.subject("Hello")
-			.htmlMessage("Hi1!");
+				.from("Jodd", "jodd@use.me")
+				.to(GreenMailServer.GREEN_MAIL_COM)
+				.subject("Hello")
+				.htmlMessage("Hi1!");
 
 		final Email email2 = Email.create()
-			.from("Jodd", "jodd@use.me")
-			.to(GreenMailServer.GREEN_MAIL_COM)
-			.subject("Hi")
-			.htmlMessage("Hi2!");
+				.from("Jodd", "jodd@use.me")
+				.to(GreenMailServer.GREEN_MAIL_COM)
+				.subject("Hi")
+				.htmlMessage("Hi2!");
 
 
 		// send
 		{
 			final SmtpServer smtpServer = MailServer.create()
-				.host(GreenMailServer.HOST)
-				.port(GreenMailServer.SMTP_PORT)
-				.buildSmtpMailServer();
+					.host(GreenMailServer.HOST)
+					.port(GreenMailServer.SMTP_PORT)
+					.buildSmtpMailServer();
 
 			final SendMailSession session = smtpServer.createSession();
 			session.open();
@@ -85,16 +84,16 @@ class EmailGreenFilterTest {
 
 		{
 			final Pop3Server popServer = MailServer.create()
-				.host(GreenMailServer.HOST)
-				.port(GreenMailServer.POP3_PORT)
-				.auth(GreenMailServer.USER, GreenMailServer.PASSWORD)
-				.buildPop3MailServer();
+					.host(GreenMailServer.HOST)
+					.port(GreenMailServer.POP3_PORT)
+					.auth(GreenMailServer.USER, GreenMailServer.PASSWORD)
+					.buildPop3MailServer();
 			final ReceiveMailSession session = popServer.createSession();
 			session.open();
 			receivedEmails = session.receiveEmail(
-				filter()
-					.flag(Flags.Flag.SEEN, false)
-					.subject("Hello")
+					filter()
+							.flag(Flags.Flag.SEEN, false)
+							.subject("Hello")
 			);
 			session.close();
 		}

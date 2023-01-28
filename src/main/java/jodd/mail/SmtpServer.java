@@ -25,9 +25,10 @@
 
 package jodd.mail;
 
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+
 import java.util.Properties;
 
 import static jodd.util.StringPool.TRUE;

@@ -25,10 +25,10 @@
 
 package jodd.mail;
 
+import jakarta.activation.DataSource;
+import jakarta.mail.internet.MimeUtility;
 import jodd.io.IOUtil;
 
-import javax.activation.DataSource;
-import javax.mail.internet.MimeUtility;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;

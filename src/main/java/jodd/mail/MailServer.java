@@ -25,8 +25,9 @@
 
 package jodd.mail;
 
-import javax.mail.Authenticator;
-import javax.mail.Session;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Session;
+
 import java.io.File;
 import java.util.Objects;
 import java.util.Properties;

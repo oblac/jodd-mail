@@ -25,12 +25,13 @@
 
 package jodd.mail;
 
-import javax.mail.MessagingException;
-import javax.mail.Service;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.Transport;
-import javax.mail.internet.MimeUtility;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.Service;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.MimeUtility;
 
 /**
  * Mail session base.

@@ -25,25 +25,25 @@
 
 package jodd.mail;
 
-import javax.mail.Flags;
-import javax.mail.Flags.Flag;
-import javax.mail.Header;
-import javax.mail.Message.RecipientType;
-import javax.mail.search.AndTerm;
-import javax.mail.search.BodyTerm;
-import javax.mail.search.FlagTerm;
-import javax.mail.search.FromStringTerm;
-import javax.mail.search.HeaderTerm;
-import javax.mail.search.MessageIDTerm;
-import javax.mail.search.MessageNumberTerm;
-import javax.mail.search.NotTerm;
-import javax.mail.search.OrTerm;
-import javax.mail.search.ReceivedDateTerm;
-import javax.mail.search.RecipientStringTerm;
-import javax.mail.search.SearchTerm;
-import javax.mail.search.SentDateTerm;
-import javax.mail.search.SizeTerm;
-import javax.mail.search.SubjectTerm;
+import jakarta.mail.Flags;
+import jakarta.mail.Header;
+import jakarta.mail.Message;
+import jakarta.mail.search.AndTerm;
+import jakarta.mail.search.BodyTerm;
+import jakarta.mail.search.FlagTerm;
+import jakarta.mail.search.FromStringTerm;
+import jakarta.mail.search.HeaderTerm;
+import jakarta.mail.search.MessageIDTerm;
+import jakarta.mail.search.MessageNumberTerm;
+import jakarta.mail.search.NotTerm;
+import jakarta.mail.search.OrTerm;
+import jakarta.mail.search.ReceivedDateTerm;
+import jakarta.mail.search.RecipientStringTerm;
+import jakarta.mail.search.SearchTerm;
+import jakarta.mail.search.SentDateTerm;
+import jakarta.mail.search.SizeTerm;
+import jakarta.mail.search.SubjectTerm;
+
 import java.util.Date;
 
 /**
@@ -133,7 +133,7 @@ public class EmailFilter {
 	 * @return this
 	 */
 	public EmailFilter to(final String toAddress) {
-		final SearchTerm toTerm = new RecipientStringTerm(RecipientType.TO, toAddress);
+		final SearchTerm toTerm = new RecipientStringTerm(Message.RecipientType.TO, toAddress);
 		concat(toTerm);
 		return this;
 	}
@@ -145,7 +145,7 @@ public class EmailFilter {
 	 * @return this
 	 */
 	public EmailFilter cc(final String ccAddress) {
-		final SearchTerm toTerm = new RecipientStringTerm(RecipientType.CC, ccAddress);
+		final SearchTerm toTerm = new RecipientStringTerm(Message.RecipientType.CC, ccAddress);
 		concat(toTerm);
 		return this;
 	}
@@ -157,7 +157,7 @@ public class EmailFilter {
 	 * @return this
 	 */
 	public EmailFilter bcc(final String bccAddress) {
-		final SearchTerm toTerm = new RecipientStringTerm(RecipientType.BCC, bccAddress);
+		final SearchTerm toTerm = new RecipientStringTerm(Message.RecipientType.BCC, bccAddress);
 		concat(toTerm);
 		return this;
 	}
@@ -166,7 +166,7 @@ public class EmailFilter {
 	 * Defines filter for many flags at once.
 	 *
 	 * @param flags The {@link Flags} to filter on.
-	 * @param value The {@link Flag} setting to check for.
+	 * @param value The flag setting to check for.
 	 * @return this
 	 */
 	public EmailFilter flags(final Flags flags, final boolean value) {
@@ -179,10 +179,10 @@ public class EmailFilter {
 	 * Defines filter for single flag.
 	 *
 	 * @param flag  The flag to filter on.
-	 * @param value The {@link Flag} setting to check for.
+	 * @param value The flag setting to check for.
 	 * @return this
 	 */
-	public EmailFilter flag(final Flag flag, final boolean value) {
+	public EmailFilter flag(final Flags.Flag flag, final boolean value) {
 		final Flags flags = new Flags();
 		flags.add(flag);
 		return flags(flags, value);
@@ -255,12 +255,12 @@ public class EmailFilter {
 	 * Comparison operator.
 	 */
 	public enum Operator {
-		EQ(javax.mail.search.ComparisonTerm.EQ),
-		GE(javax.mail.search.ComparisonTerm.GE),
-		GT(javax.mail.search.ComparisonTerm.GT),
-		LE(javax.mail.search.ComparisonTerm.LE),
-		LT(javax.mail.search.ComparisonTerm.LT),
-		NE(javax.mail.search.ComparisonTerm.NE);
+		EQ(jakarta.mail.search.ComparisonTerm.EQ),
+		GE(jakarta.mail.search.ComparisonTerm.GE),
+		GT(jakarta.mail.search.ComparisonTerm.GT),
+		LE(jakarta.mail.search.ComparisonTerm.LE),
+		LT(jakarta.mail.search.ComparisonTerm.LT),
+		NE(jakarta.mail.search.ComparisonTerm.NE);
 
 		private final int value;
 

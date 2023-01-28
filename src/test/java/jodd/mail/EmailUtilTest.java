@@ -25,11 +25,11 @@
 
 package jodd.mail;
 
+import jakarta.mail.Flags;
 import jodd.net.MimeTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.mail.Flags;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 

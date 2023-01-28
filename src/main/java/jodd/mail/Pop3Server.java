@@ -25,10 +25,10 @@
 
 package jodd.mail;
 
-import javax.mail.Authenticator;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
+import jakarta.mail.NoSuchProviderException;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
+
 import java.io.File;
 import java.util.Properties;
 

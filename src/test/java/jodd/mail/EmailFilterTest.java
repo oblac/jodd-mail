@@ -25,18 +25,18 @@
 
 package jodd.mail;
 
+import jakarta.mail.Message;
+import jakarta.mail.search.AndTerm;
+import jakarta.mail.search.FromStringTerm;
+import jakarta.mail.search.NotTerm;
+import jakarta.mail.search.OrTerm;
+import jakarta.mail.search.ReceivedDateTerm;
+import jakarta.mail.search.RecipientStringTerm;
+import jakarta.mail.search.SearchTerm;
+import jakarta.mail.search.SentDateTerm;
+import jakarta.mail.search.SubjectTerm;
 import org.junit.jupiter.api.Test;
 
-import javax.mail.Message;
-import javax.mail.search.AndTerm;
-import javax.mail.search.FromStringTerm;
-import javax.mail.search.NotTerm;
-import javax.mail.search.OrTerm;
-import javax.mail.search.ReceivedDateTerm;
-import javax.mail.search.RecipientStringTerm;
-import javax.mail.search.SearchTerm;
-import javax.mail.search.SentDateTerm;
-import javax.mail.search.SubjectTerm;
 import java.util.Date;
 
 import static jodd.mail.EmailFilter.filter;
@@ -52,8 +52,8 @@ class EmailFilterTest {
 	@Test
 	void testAnd1() {
 		final EmailFilter emailFilter =
-			filter()
-				.from(FROM);
+				filter()
+						.from(FROM);
 
 		final SearchTerm expected = new FromStringTerm(FROM);
 		assertEquals(expected, emailFilter.searchTerm);
@@ -62,32 +62,32 @@ class EmailFilterTest {
 	@Test
 	void testAnd2() {
 		final EmailFilter emailFilter =
-			filter()
-				.from(FROM)
-				.to(TO);
+				filter()
+						.from(FROM)
+						.to(TO);
 
 		final SearchTerm expected =
-			new AndTerm(
-				new FromStringTerm(FROM),
-				new RecipientStringTerm(Message.RecipientType.TO, TO)
-			);
+				new AndTerm(
+						new FromStringTerm(FROM),
+						new RecipientStringTerm(Message.RecipientType.TO, TO)
+				);
 		assertEquals(expected, emailFilter.searchTerm);
 	}
 
 	@Test
 	void testOr2() {
 		final EmailFilter emailFilter =
-			filter().or(
-				filter().from(FROM),
-				filter().to(TO)
+				filter().or(
+						filter().from(FROM),
+						filter().to(TO)
 
-			);
+				);
 
 		final SearchTerm expected =
-			new OrTerm(
-				new FromStringTerm(FROM),
-				new RecipientStringTerm(Message.RecipientType.TO, TO)
-			);
+				new OrTerm(
+						new FromStringTerm(FROM),
+						new RecipientStringTerm(Message.RecipientType.TO, TO)
+				);
 
 		assertEquals(expected, emailFilter.searchTerm);
 	}
@@ -95,15 +95,15 @@ class EmailFilterTest {
 	@Test
 	void testOr2Alt() {
 		final EmailFilter emailFilter =
-			filter().or()
-				.from(FROM)
-				.to(TO);
+				filter().or()
+						.from(FROM)
+						.to(TO);
 
 		final SearchTerm expected =
-			new OrTerm(
-				new FromStringTerm(FROM),
-				new RecipientStringTerm(Message.RecipientType.TO, TO)
-			);
+				new OrTerm(
+						new FromStringTerm(FROM),
+						new RecipientStringTerm(Message.RecipientType.TO, TO)
+				);
 
 		assertEquals(expected, emailFilter.searchTerm);
 	}
@@ -111,27 +111,27 @@ class EmailFilterTest {
 	@Test
 	void testAndOrNot() {
 		final EmailFilter emailFilter =
-			filter()
-				.from(FROM)
-				.to(TO)
-				.or()
-				.not()
-				.subject(SUBJECT)
-				.from(FROM_2);
+				filter()
+						.from(FROM)
+						.to(TO)
+						.or()
+						.not()
+						.subject(SUBJECT)
+						.from(FROM_2);
 
 		final SearchTerm expected =
-			new OrTerm(
 				new OrTerm(
-					new AndTerm(
-						new FromStringTerm(FROM),
-						new RecipientStringTerm(Message.RecipientType.TO, TO)
-					),
-					new NotTerm(
-						new SubjectTerm(SUBJECT)
-					)
-				),
-				new FromStringTerm(FROM_2)
-			);
+						new OrTerm(
+								new AndTerm(
+										new FromStringTerm(FROM),
+										new RecipientStringTerm(Message.RecipientType.TO, TO)
+								),
+								new NotTerm(
+										new SubjectTerm(SUBJECT)
+								)
+						),
+						new FromStringTerm(FROM_2)
+				);
 
 		assertEquals(expected, emailFilter.searchTerm);
 	}
@@ -139,29 +139,29 @@ class EmailFilterTest {
 	@Test
 	void testAndOrNotAlt() {
 		final EmailFilter emailFilter =
-			filter()
-				.or(
-					filter().and(
-						filter().from(FROM),
-						filter().to(TO)
-					),
-					filter().not(filter().subject(SUBJECT)),
-					filter().from(FROM_2)
-				);
+				filter()
+						.or(
+								filter().and(
+										filter().from(FROM),
+										filter().to(TO)
+								),
+								filter().not(filter().subject(SUBJECT)),
+								filter().from(FROM_2)
+						);
 
 		final SearchTerm expected =
-			new OrTerm(
-				new SearchTerm[]{
-					new AndTerm(
-						new FromStringTerm(FROM),
-						new RecipientStringTerm(Message.RecipientType.TO, TO)
-					),
-					new NotTerm(
-						new SubjectTerm(SUBJECT)
-					),
-					new FromStringTerm(FROM_2)
-				}
-			);
+				new OrTerm(
+						new SearchTerm[]{
+								new AndTerm(
+										new FromStringTerm(FROM),
+										new RecipientStringTerm(Message.RecipientType.TO, TO)
+								),
+								new NotTerm(
+										new SubjectTerm(SUBJECT)
+								),
+								new FromStringTerm(FROM_2)
+						}
+				);
 
 
 		assertEquals(expected, emailFilter.searchTerm);
@@ -170,14 +170,14 @@ class EmailFilterTest {
 	@Test
 	void testReceivedDate() {
 		final EmailFilter emailFilter = EmailFilter.filter()
-			.receivedDate(EmailFilter.Operator.EQ, 1524575533757L)
-			.sentDate(EmailFilter.Operator.GT, 1524575533757L);
+				.receivedDate(EmailFilter.Operator.EQ, 1524575533757L)
+				.sentDate(EmailFilter.Operator.GT, 1524575533757L);
 
 		final SearchTerm expected =
-			new AndTerm(
-				new ReceivedDateTerm(3, new Date(1524575533757L)),
-				new SentDateTerm(5, new Date(1524575533757L))
-			);
+				new AndTerm(
+						new ReceivedDateTerm(3, new Date(1524575533757L)),
+						new SentDateTerm(5, new Date(1524575533757L))
+				);
 
 		assertEquals(expected, emailFilter.searchTerm);
 	}
