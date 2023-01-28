@@ -73,7 +73,7 @@ public class ImapServer extends MailServer<ReceiveMailSession> {
 	/**
 	 * Returns email store.
 	 *
-	 * @return {@link com.sun.mail.imap.IMAPStore}
+	 * @return IMAPStore
 	 * @throws NoSuchProviderException if a provider for the given protocol is not found.
 	 */
 	protected Store getStore(final Session session) throws NoSuchProviderException {

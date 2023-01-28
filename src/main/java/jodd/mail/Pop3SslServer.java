@@ -59,7 +59,7 @@ public class Pop3SslServer extends Pop3Server {
 	 * Returns email store.
 	 *
 	 * @param session {@link Session}
-	 * @return {@link com.sun.mail.pop3.POP3SSLStore}
+	 * @return POP3SSLStore
 	 */
 	@Override
 	protected POP3SSLStore getStore(final Session session) {

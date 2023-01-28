@@ -27,7 +27,6 @@ package jodd.mail;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
-import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Part;
 import jakarta.mail.Session;
@@ -44,7 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static jakarta.mail.Message.*;
+import static jakarta.mail.Message.RecipientType;
 
 /**
  * Encapsulates {@link Email} sending session. Prepares and sends {@link #sendMail(Email)} {@link Email}s.
@@ -120,7 +119,7 @@ public class SendMailSession extends MailSession<Transport> {
 	 * @param msgToSet      {@link MimeMessage} to set data into.
 	 * @throws MessagingException if there is a failure
 	 */
-	private void setSubject(final Email emailWithData, final MimeMessage msgToSet) throws MessagingException {
+	private static void setSubject(final Email emailWithData, final MimeMessage msgToSet) throws MessagingException {
 		if (emailWithData.subjectEncoding() != null) {
 			msgToSet.setSubject(emailWithData.subject(), emailWithData.subjectEncoding());
 		} else {
@@ -135,7 +134,7 @@ public class SendMailSession extends MailSession<Transport> {
 	 * @param msgToSet      {@link MimeMessage} to set data into.
 	 * @throws MessagingException if there is a failure
 	 */
-	private void setSentDate(final Email emailWithData, final MimeMessage msgToSet) throws MessagingException {
+	private static void setSentDate(final Email emailWithData, final MimeMessage msgToSet) throws MessagingException {
 		Date date = emailWithData.sentDate();
 		if (date == null) {
 			date = new Date();
@@ -150,7 +149,7 @@ public class SendMailSession extends MailSession<Transport> {
 	 * @param msgToSet      {@link MimeMessage} to set data into.
 	 * @throws MessagingException if there is a failure
 	 */
-	private void setHeaders(final Email emailWithData, final MimeMessage msgToSet) throws MessagingException {
+	private static void setHeaders(final Email emailWithData, final MimeMessage msgToSet) throws MessagingException {
 		final Map<String, String> headers = emailWithData.headers();
 		if (headers != null) {
 			for (final Map.Entry<String, String> entry : headers.entrySet()) {
@@ -240,7 +239,7 @@ public class SendMailSession extends MailSession<Transport> {
 	 * @return new {@link MimeBodyPart} with content set as msgMultipart.
 	 * @throws MessagingException if there is a failure.
 	 */
-	private MimeBodyPart getBaseBodyPart(final MimeMultipart msgMultipart) throws MessagingException {
+	private static MimeBodyPart getBaseBodyPart(final MimeMultipart msgMultipart) throws MessagingException {
 		final MimeBodyPart bodyPart = new MimeBodyPart();
 		bodyPart.setContent(msgMultipart);
 		return bodyPart;
@@ -289,7 +288,7 @@ public class SendMailSession extends MailSession<Transport> {
 	 * @param partToSet     {@link Part} to set data into.
 	 * @throws MessagingException if there is a failure.
 	 */
-	private void setContent(final EmailMessage emailWithData, final Part partToSet) throws MessagingException {
+	private static void setContent(final EmailMessage emailWithData, final Part partToSet) throws MessagingException {
 		partToSet.setContent(emailWithData.getContent(), emailWithData.getMimeType() + CHARSET + emailWithData.getEncoding());
 	}
 
@@ -328,7 +327,7 @@ public class SendMailSession extends MailSession<Transport> {
 	 * @param emailMessage {@link EmailMessage} to see if attachment is embedded into.
 	 * @return {@link List} of embedded {@link EmailAttachment}s; otherwise, returns empty {@link List}.
 	 */
-	protected List<EmailAttachment<? extends DataSource>> filterEmbeddedAttachments(final List<EmailAttachment<? extends DataSource>> attachments, final EmailMessage emailMessage) {
+	protected static List<EmailAttachment<? extends DataSource>> filterEmbeddedAttachments(final List<EmailAttachment<? extends DataSource>> attachments, final EmailMessage emailMessage) {
 		final List<EmailAttachment<? extends DataSource>> embeddedAttachments = new ArrayList<>();
 
 		if (attachments == null || attachments.isEmpty() || emailMessage == null) {
