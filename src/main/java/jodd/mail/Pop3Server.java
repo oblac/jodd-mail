@@ -25,12 +25,14 @@
 
 package jodd.mail;
 
+import jakarta.mail.Authenticator;
 import jakarta.mail.NoSuchProviderException;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
 
 import java.io.File;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 import static jodd.util.StringPool.TRUE;
 
@@ -49,6 +51,7 @@ public class Pop3Server extends MailServer<ReceiveMailSession> {
 	public Pop3Server(final Builder builder) {
 		super(builder, DEFAULT_POP3_PORT);
 	}
+
 	protected Pop3Server(final Builder builder, final int defaultPort) {
 		super(builder, defaultPort);
 	}
@@ -87,15 +90,15 @@ public class Pop3Server extends MailServer<ReceiveMailSession> {
 	 * {@inheritDoc}
 	 *
 	 * @return {@link ReceiveMailSession}
-	 * @see EmailUtil#createSession(String, Properties, Authenticator, File, java.util.function.Consumer)
+	 * @see EmailUtil#createSession(String, Properties, Authenticator, File, Consumer)
 	 */
 	@Override
 	public ReceiveMailSession createSession() {
 		return EmailUtil.createSession(
-			PROTOCOL_POP3,
-			createSessionProperties(),
-			authenticator,
-			attachmentStorage, debugConsumer);
+				PROTOCOL_POP3,
+				createSessionProperties(),
+				authenticator,
+				attachmentStorage, debugConsumer);
 	}
 
 }

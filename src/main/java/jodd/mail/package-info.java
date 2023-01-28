@@ -24,6 +24,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 /**
- * Simple e-mail sending.
+ * Simple Java mail library.
  */
 package jodd.mail;
