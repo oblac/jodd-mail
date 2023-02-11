@@ -35,29 +35,27 @@ import java.util.function.Consumer;
 
 public abstract class MailServer<MailSessionImpl extends MailSession> {
 
+	// This is the list of all mail properties used by Jakarta Mail API and it's implementation, Angus.
+	// Jakarta: https://javaee.github.io/javamail/docs/api/
+	// Angus (smtp): https://github.com/eclipse-ee4j/angus-mail/blob/master/providers/smtp/src/main/java/org/eclipse/angus/mail/smtp/package-info.java
+	// Angus (imap): https://github.com/eclipse-ee4j/angus-mail/blob/master/providers/imap/src/main/java/org/eclipse/angus/mail/imap/package-info.java
+	// Angus (pop3): https://github.com/eclipse-ee4j/angus-mail/blob/master/providers/pop3/src/main/java/org/eclipse/angus/mail/pop3/package-info.java
+
 	public static final String MAIL_HOST = "mail.host";
+	public static final String MAIL_FROM = "mail.from";
+	public static final String MAIL_DEBUG = "mail.debug";
+	public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
+	public static final String MAIL_MIME_ADDRESS_STRICT = "mail.mime.address.strict";
+
 	public static final String MAIL_SMTP_HOST = "mail.smtp.host";
 	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
-	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
-	public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
-	//public static final String MAIL_SMTP_FROM = "mail.smtp.from";
+	public static final String MAIL_SMTP_USER = "mail.smtp.user";
 
+	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+	public static final String MAIL_SMTP_FROM = "mail.smtp.from";
 	public static final String MAIL_SMTP_CONNECTIONTIMEOUT = "mail.smtp.connectiontimeout";
 	public static final String MAIL_SMTP_TIMEOUT = "mail.smtp.timeout";
 	public static final String MAIL_SMTP_WRITETIMEOUT = "mail.smtp.writetimeout";
-	public static final String MAIL_DEBUG = "mail.debug";
-	public static final String MAIL_MIME_ADDRESS_STRICT = "mail.mime.address.strict";
-
-	public static final String MAIL_IMAP_CONNECTIONTIMEOUT = "mail.imap.connectiontimeout";
-	public static final String MAIL_IMAP_TIMEOUT = "mail.imap.timeout";
-	public static final String MAIL_IMAP_PORT = "mail.imap.port";
-	public static final String MAIL_IMAP_HOST = "mail.imap.host";
-	public static final String MAIL_IMAP_PARTIALFETCH = "mail.imap.partialfetch";
-	public static final String MAIL_IMAP_PEEK = "mail.imap.peek";
-
-	public static final String MAIL_IMAP_SOCKET_FACTORY_PORT = "mail.imap.socketFactory.port";
-	public static final String MAIL_IMAP_SOCKET_FACTORY_CLASS = "mail.imap.socketFactory.class";
-	public static final String MAIL_IMAP_SOCKET_FACTORY_FALLBACK = "mail.imap.socketFactory.fallback";
 
 	public static final String MAIL_SMTP_STARTTLS_REQUIRED = "mail.smtp.starttls.required";
 	public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
@@ -65,8 +63,22 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 	public static final String MAIL_SMTP_SOCKET_FACTORY_CLASS = "mail.smtp.socketFactory.class";
 	public static final String MAIL_SMTP_SOCKET_FACTORY_FALLBACK = "mail.smtp.socketFactory.fallback";
 
+
+	public static final String MAIL_IMAP_CONNECTIONTIMEOUT = "mail.imap.connectiontimeout";
+	public static final String MAIL_IMAP_TIMEOUT = "mail.imap.timeout";
+	public static final String MAIL_IMAP_PORT = "mail.imap.port";
+	public static final String MAIL_IMAP_HOST = "mail.imap.host";
+	public static final String MAIL_IMAP_USER = "mail.imap.user";
+	public static final String MAIL_IMAP_PARTIALFETCH = "mail.imap.partialfetch";
+	public static final String MAIL_IMAP_PEEK = "mail.imap.peek";
+
+	public static final String MAIL_IMAP_SOCKET_FACTORY_PORT = "mail.imap.socketFactory.port";
+	public static final String MAIL_IMAP_SOCKET_FACTORY_CLASS = "mail.imap.socketFactory.class";
+	public static final String MAIL_IMAP_SOCKET_FACTORY_FALLBACK = "mail.imap.socketFactory.fallback";
+
 	public static final String MAIL_POP3_PORT = "mail.pop3.port";
 	public static final String MAIL_POP3_HOST = "mail.pop3.host";
+	public static final String MAIL_POP3_USER = "mail.pop3.user";
 	public static final String MAIL_POP3_AUTH = "mail.pop3.auth";
 	public static final String MAIL_POP3_CONNECTIONTIMEOUT = "mail.pop3.connectiontimeout";
 	public static final String MAIL_POP3_TIMEOUT = "mail.pop3.timeout";
@@ -183,7 +195,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 		private Consumer<String> debugConsumer;
 		private int timeout = 0;
 		private boolean strictAddress = true;
-		private Properties customProperties = new Properties();
+		private final Properties customProperties = new Properties();
 
 		/**
 		 * Sets the host.
@@ -269,7 +281,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 		 * @param consumer a String consumer to be called for debug logging. By default, this is null.
 		 * @return this
 		 */
-		public Builder debugConsumer(Consumer<String> consumer) {
+		public Builder debugConsumer(final Consumer<String> consumer) {
 			this.debugConsumer = consumer;
 			return this;
 		}
