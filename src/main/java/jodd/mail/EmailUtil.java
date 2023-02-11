@@ -171,13 +171,13 @@ public class EmailUtil {
 	 * @param debugConsumer
 	 * @return {@link ReceiveMailSession}.
 	 */
-	public static ReceiveMailSession createSession(final String protocol, final Properties sessionProperties, final Authenticator authenticator, final File attachmentStorage, Consumer<String> debugConsumer) {
+	public static ReceiveMailSession createSession(final String protocol, final Properties sessionProperties, final Authenticator authenticator, final File attachmentStorage, final Consumer<String> debugConsumer) {
 		final Session session = Session.getInstance(sessionProperties, authenticator);
-		if(debugConsumer!=null) {
+		if (debugConsumer != null) {
 			session.setDebugOut(new PrintStream(new ByteArrayOutputStream() {
 				@Override
 				public void flush() throws IOException {
-					String record;
+					final String record;
 					synchronized (this) {
 						super.flush();
 						record = this.toString().trim();
@@ -191,7 +191,7 @@ public class EmailUtil {
 						debugConsumer.accept(record);
 					}
 				}
-			},true));
+			}, true));
 		}
 		final Store store;
 		try {
@@ -205,16 +205,19 @@ public class EmailUtil {
 
 	/**
 	 * Check whether flags is a empty flags
+	 *
 	 * @param flags a flags of message to check
 	 * @return whether the flags is empty
 	 */
-	public static boolean isEmptyFlags(Flags flags) {
-		if (flags == null) return true;
-		Flags.Flag[] systemFlags = flags.getSystemFlags();
+	public static boolean isEmptyFlags(final Flags flags) {
+		if (flags == null) {
+			return true;
+		}
+		final Flags.Flag[] systemFlags = flags.getSystemFlags();
 		if (systemFlags != null && systemFlags.length > 0) {
 			return false;
 		}
-		String[] userFlags = flags.getUserFlags();
+		final String[] userFlags = flags.getUserFlags();
 		if (userFlags != null && userFlags.length > 0) {
 			return false;
 		}

@@ -87,6 +87,14 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 	public static final String MAIL_POP3_SOCKET_FACTORY_CLASS = "mail.pop3.socketFactory.class";
 	public static final String MAIL_POP3_SOCKET_FACTORY_FALLBACK = "mail.pop3.socketFactory.fallback";
 
+	// NOT PART OF SPECIFICATION:
+
+	public static final String MAIL_EVENT_EXECUTOR = "mail.event.executor";
+	public static final String MAIL_EVENT_SCOPE = "mail.event.scope";
+	public static final String MAIL_DEBUG_AUTH = "mail.debug.auth";
+	public static final String MAIL_DEBUG_AUTH_USERNAME = "mail.debug.auth.username";
+	public static final String MAIL_DEBUG_AUTH_PASSWORD = "mail.debug.auth.password";
+
 	/**
 	 * The host.
 	 */
@@ -299,7 +307,7 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 		/**
 		 * Disables the strict address.
 		 *
-		 * @param strictAddress {@code true} if strict address checking should be be turned on. By default, this is {@code true}.
+		 * @param strictAddress {@code true} if strict address checking should be turned on. By default, this is {@code true}.
 		 * @return this
 		 */
 		public Builder strictAddress(final boolean strictAddress) {
@@ -307,7 +315,18 @@ public abstract class MailServer<MailSessionImpl extends MailSession> {
 			return this;
 		}
 
+		/**
+		 * Specifies a custom property.
+		 */
 		public Builder property(final String name, final String value) {
+			this.customProperties.put(name, value);
+			return this;
+		}
+
+		/**
+		 * Specifies a non-string custom property; such as `mail.event.executor`.
+		 */
+		public Builder property(final String name, final Object value) {
 			this.customProperties.put(name, value);
 			return this;
 		}
