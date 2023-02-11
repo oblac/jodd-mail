@@ -136,7 +136,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	public Folder getFolder(final String folder) {
 		try {
 			return getService().getFolder(folder);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new MailException("Folder not found: " + folder, e);
 		}
 	}
@@ -221,7 +221,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	// ---------------------------------------------------------------- receive builder
 
 	/**
-	 * Defines the process of received email in an fluent way.
+	 * Defines the process of received email in a fluent way.
 	 */
 	public ReceiverBuilder receive() {
 		return new ReceiverBuilder(this);
@@ -391,7 +391,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 		useAndOpenFolderIfNotSet();
 		try {
 			folder.setFlags(new int[] {receivedEmail.messageNumber()}, receivedEmail.flags(),true);
-		} catch (MessagingException mex) {
+		} catch (final MessagingException mex) {
 			throw new MailException("Failed to fetch messages", mex);
 		}
 	}
@@ -401,7 +401,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	/**
 	 * Closes folder if opened and expunge deleted messages.
 	 */
-	protected void closeFolderIfOpened(final Folder folder) {
+	protected static void closeFolderIfOpened(final Folder folder) {
 		if (folder != null && folder.isOpen()) {
 			try {
 				folder.close(true);
