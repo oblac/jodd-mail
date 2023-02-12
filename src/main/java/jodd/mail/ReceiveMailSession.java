@@ -25,7 +25,6 @@
 
 package jodd.mail;
 
-import jakarta.mail.FetchProfile;
 import jakarta.mail.Flags;
 import jakarta.mail.Folder;
 import jakarta.mail.Message;
@@ -53,7 +52,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	Folder folder;
 	String folderName;
 
-	private final File attachmentStorage;
+	final File attachmentStorage;
 
 	static {
 		setupSystemMailProperties();
@@ -237,7 +236,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	 * @return array of {@link ReceivedEmail}s.
 	 */
 	public ReceivedEmail[] receiveEmail() {
-		return receiveMessages(null, null, null, false, null);
+		return receiveMessages(null, null, null, false, null).fetch();
 	}
 
 	/**
@@ -249,7 +248,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	 * @return array of {@link ReceivedEmail}s.
 	 */
 	public ReceivedEmail[] receiveEmail(final EmailFilter filter) {
-		return receiveMessages(filter, null, null, false, null);
+		return receiveMessages(filter, null, null, false, null).fetch();
 	}
 
 	/**
@@ -272,7 +271,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 	public ReceivedEmail[] receiveEmailAndMarkSeen(final EmailFilter filter) {
 		final Flags flagsToSet = new Flags();
 		flagsToSet.add(Flags.Flag.SEEN);
-		return receiveMessages(filter, flagsToSet, null, false, null);
+		return receiveMessages(filter, flagsToSet, null, false, null).fetch();
 	}
 
 	/**
@@ -295,7 +294,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 		final Flags flags = new Flags();
 		flags.add(Flags.Flag.SEEN);
 		flags.add(Flags.Flag.DELETED);
-		return receiveMessages(filter, flags, null, false, null);
+		return receiveMessages(filter, flags, null, false, null).fetch();
 	}
 
 	public ReceivedEmail[] receiveEnvelopes() {
@@ -303,13 +302,13 @@ public class ReceiveMailSession extends MailSession<Store> {
 	}
 
 	public ReceivedEmail[] receiveEnvelopes(final EmailFilter filter) {
-		return receiveMessages(filter, null, null, true, null);
+		return receiveMessages(filter, null, null, true, null).fetch();
 	}
 
 	/**
 	 * The main email receiving method.
 	 */
-	ReceivedEmail[] receiveMessages(
+	ReceivedEmails receiveMessages(
 			final EmailFilter filter,
 			final Flags flagsToSet,
 			final Flags flagsToUnset,
@@ -326,56 +325,7 @@ public class ReceiveMailSession extends MailSession<Store> {
 				messages = folder.search(filter.getSearchTerm());
 			}
 
-			if (messages.length == 0) {
-				return ReceivedEmail.EMPTY_ARRAY;
-			}
-
-			if (envelope) {
-				final FetchProfile fetchProfile = new FetchProfile();
-
-				fetchProfile.add(FetchProfile.Item.ENVELOPE);
-				fetchProfile.add(FetchProfile.Item.FLAGS);
-
-				folder.fetch(messages, fetchProfile);
-			}
-
-			// process messages
-
-			final ReceivedEmail[] emails = new ReceivedEmail[messages.length];
-
-			for (int i = 0; i < messages.length; i++) {
-				final Message msg = messages[i];
-
-				// we need to parse message BEFORE flags are set!
-				emails[i] = new ReceivedEmail(msg, envelope, attachmentStorage);
-
-				if (!EmailUtil.isEmptyFlags(flagsToSet)) {
-					emails[i].flags(flagsToSet);
-					msg.setFlags(flagsToSet, true);
-				}
-
-				if (!EmailUtil.isEmptyFlags(flagsToUnset)) {
-					emails[i].flags().remove(flagsToUnset);
-					msg.setFlags(flagsToUnset, false);
-				}
-
-				if (EmailUtil.isEmptyFlags(flagsToSet) && !emails[i].isSeen()) {
-					msg.setFlag(Flags.Flag.SEEN, false);
-				}
-			}
-
-			if (processedMessageConsumer != null) {
-				processedMessageConsumer.accept(messages);
-			}
-
-			// if messages were marked to be deleted, we need to expunge the folder
-			if (!EmailUtil.isEmptyFlags(flagsToSet)) {
-				if (flagsToSet.contains(Flags.Flag.DELETED)) {
-					folder.expunge();
-				}
-			}
-
-			return emails;
+			return new ReceivedEmails(this, messages, flagsToSet, flagsToUnset, envelope, processedMessageConsumer);
 		} catch (final MessagingException msgexc) {
 			throw new MailException("Failed to fetch messages", msgexc);
 		}

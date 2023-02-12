@@ -114,6 +114,14 @@ public class ReceiverBuilder {
 	 * Receives the emails as specified by the builder.
 	 */
 	public ReceivedEmail[] get() {
+		return run().fetch();
+	}
+
+	/**
+	 * Wraps the received emails so they not gets processed until user really needs them.
+	 * todo need better method name.
+	 */
+	public ReceivedEmails run() {
 		if (fromFolder != null) {
 			session.useFolder(fromFolder);
 		}
@@ -122,7 +130,7 @@ public class ReceiverBuilder {
 			if (targetFolder != null) {
 				try {
 					session.folder.copyMessages(messages, session.getFolder(targetFolder));
-				} catch (MessagingException e) {
+				} catch (final MessagingException e) {
 					throw new MailException("Copying messages failed");
 				}
 			}
