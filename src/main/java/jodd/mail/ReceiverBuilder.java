@@ -28,6 +28,8 @@ package jodd.mail;
 import jakarta.mail.Flags;
 import jakarta.mail.MessagingException;
 
+import java.util.function.Consumer;
+
 /**
  * Fluent builder
  */
@@ -114,19 +116,18 @@ public class ReceiverBuilder {
 	 * Receives the emails as specified by the builder.
 	 */
 	public ReceivedEmail[] get() {
-		return run().fetch();
+		return with(ReceiverRunner.EMPTY_CONSUMER).fetch();
 	}
 
 	/**
-	 * Wraps the received emails so they not gets processed until user really needs them.
-	 * todo need better method name.
+	 * Wraps the received emails, so they not get processed until user really needs them.
 	 */
-	public ReceivedEmails run() {
+	public ReceiverRunner with(final Consumer<ReceivedEmails> consumer) {
 		if (fromFolder != null) {
 			session.useFolder(fromFolder);
 		}
 
-		return session.receiveMessages(filter, flagsToSet, flagsToUnset, envelopeOnly, messages -> {
+		final ReceivedEmails receivedEmails = session.receiveMessages(filter, flagsToSet, flagsToUnset, envelopeOnly, messages -> {
 			if (targetFolder != null) {
 				try {
 					session.folder.copyMessages(messages, session.getFolder(targetFolder));
@@ -135,6 +136,36 @@ public class ReceiverBuilder {
 				}
 			}
 		});
+		return new ReceiverRunner(receivedEmails, consumer);
+	}
+
+	public static class ReceiverRunner {
+		private final ReceivedEmails receivedEmails;
+		private final Consumer<ReceivedEmails> consumer;
+
+		private final static Consumer<ReceivedEmails> EMPTY_CONSUMER = receivedEmails -> {};
+
+		private ReceiverRunner(final ReceivedEmails receivedEmails, final Consumer<ReceivedEmails> consumer) {
+			this.receivedEmails = receivedEmails;
+			this.consumer = consumer;
+		}
+
+		/**
+		 * Executes the consumer on the received emails.
+		 * At this point, the emails are not processed yet.
+		 */
+		final ReceiverRunner run() {
+			consumer.accept(receivedEmails);
+			return this;
+		}
+
+		/**
+		 * Fetches the emails.
+		 * After this point, the emails are processed.
+		 */
+		final ReceivedEmail[] fetch() {
+			return receivedEmails.fetch();
+		}
 	}
 
 }
