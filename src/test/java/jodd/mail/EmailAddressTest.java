@@ -28,8 +28,7 @@ package jodd.mail;
 import jakarta.mail.internet.AddressException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EmailAddressTest {
 
@@ -86,5 +85,16 @@ class EmailAddressTest {
 		final EmailAddress addr = EmailAddress.of(testAddress);
 
 		assertEquals("Some One <someone@yahoo.com>", addr.toString());
+	}
+
+	@Test
+	void testEquality() {
+		final EmailAddress addr = EmailAddress.of(JENNY_DOE_ADMIN_JODD_COM);
+		final EmailAddress addrSame = EmailAddress.of(JENNY_DOE_ADMIN_JODD_COM);
+
+		final EmailAddress addrOther = EmailAddress.of("Other <other@jodd.com>");
+
+		assertEquals(addr, addrSame);
+		assertNotEquals(addr, addrOther);
 	}
 }

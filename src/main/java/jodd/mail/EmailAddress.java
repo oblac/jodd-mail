@@ -32,6 +32,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
+import java.util.Objects;
 
 /**
  * Storage for personal name and email address.
@@ -229,5 +230,25 @@ public class EmailAddress {
 			address[i] = addresses[i].toInternetAddress();
 		}
 		return address;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, personalName);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (!(o instanceof EmailAddress)) {
+			return false;
+		}
+
+		EmailAddress addr = (EmailAddress) o;
+
+		return Objects.equals(email, addr.getEmail()) && Objects.equals(personalName, addr.getPersonalName());
 	}
 }
