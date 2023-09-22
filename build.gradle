@@ -39,7 +39,7 @@ repositories {
 
 group = 'org.jodd'
 //version = '7.0.0.' + timestamp() + "-SNAPSHOT"
-version = '7.0.0'
+version = '7.0.1'
 
 rootProject.description = 'Java Mail client'
 
