@@ -42,7 +42,7 @@ public class ImapServer extends MailServer<ReceiveMailSession> {
 	/**
 	 * Default IMAP port.
 	 */
-	protected static final int DEFAULT_IMAP_PORT = 143;
+	public static final int DEFAULT_IMAP_PORT = 143;
 
 	public ImapServer(final Builder builder) {
 		super(builder, DEFAULT_IMAP_PORT);

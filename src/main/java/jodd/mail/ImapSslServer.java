@@ -41,7 +41,7 @@ public class ImapSslServer extends ImapServer {
 	/**
 	 * Default IMAP SSL port.
 	 */
-	protected static final int DEFAULT_SSL_PORT = 993;
+	public static final int DEFAULT_SSL_PORT = 993;
 
 	public ImapSslServer(final Builder builder) {
 		super(builder, DEFAULT_SSL_PORT);

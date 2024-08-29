@@ -38,7 +38,7 @@ import java.util.Properties;
  */
 public class Pop3SslServer extends Pop3Server {
 
-	protected static final int DEFAULT_SSL_PORT = 995;
+	public static final int DEFAULT_SSL_PORT = 995;
 
 	public Pop3SslServer(final Builder builder) {
 		super(builder, DEFAULT_SSL_PORT);

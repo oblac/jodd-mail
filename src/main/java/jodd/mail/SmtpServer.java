@@ -43,7 +43,7 @@ public class SmtpServer extends MailServer<SendMailSession> {
 	/**
 	 * Default SMTP port
 	 */
-	protected static final int DEFAULT_SMTP_PORT = 25;
+	public static final int DEFAULT_SMTP_PORT = 25;
 
 	// ---------------------------------------------------------------- create
 
@@ -103,7 +103,7 @@ public class SmtpServer extends MailServer<SendMailSession> {
 	 * @return SMTP {@link Transport}.
 	 * @throws NoSuchProviderException If provider for the given protocol is not found.
 	 */
-	protected Transport getTransport(final Session session) throws NoSuchProviderException {
+	protected static Transport getTransport(final Session session) throws NoSuchProviderException {
 		return session.getTransport(PROTOCOL_SMTP);
 	}
 

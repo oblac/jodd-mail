@@ -46,7 +46,7 @@ public class Pop3Server extends MailServer<ReceiveMailSession> {
 	/**
 	 * Default POP3 port.
 	 */
-	protected static final int DEFAULT_POP3_PORT = 110;
+	public static final int DEFAULT_POP3_PORT = 110;
 
 	public Pop3Server(final Builder builder) {
 		super(builder, DEFAULT_POP3_PORT);
