@@ -44,7 +44,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static jakarta.mail.Flags.*;
+import static jakarta.mail.Flags.Flag;
+import static jodd.mail.EmailUtil.sanitizeFileName;
 
 /**
  * Received email.
@@ -444,7 +445,7 @@ public class ReceivedEmail extends CommonEmail<ReceivedEmail> {
 		final EmailAttachmentBuilder builder = addAttachmentInfo(part);
 		builder.content(content, part.getContentType());
 		if (attachmentStorage != null) {
-			String name = messageId + "-" + (this.attachments().size() + 1);
+			final String name = sanitizeFileName(messageId) + "-" + (this.attachments().size() + 1);
 			return storeAttachment(builder.buildFileDataSource(name, attachmentStorage));
 		}
 		return storeAttachment(builder.buildByteArrayDataSource());

@@ -86,4 +86,10 @@ class EmailUtilTest {
 		assertTrue(EmailUtil.isEmptyFlags(flags));
 	}
 
+	@Test
+	void testSanitizeFileName() {
+		assertEquals("file.txt", EmailUtil.sanitizeFileName("file.txt"));
+		assertEquals("_6d0455f09ad249c897c0aa28a7ee3579_domain_", EmailUtil.sanitizeFileName("<6d0455f09ad249c897c0aa28a7ee3579@domain>"));
+	}
+
 }

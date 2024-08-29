@@ -25,18 +25,19 @@
 
 package jodd.mail;
 
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
 import jakarta.mail.util.ByteArrayDataSource;
 import jodd.io.FileNameUtil;
 import jodd.io.FileUtil;
 import jodd.net.MimeTypes;
 
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import static jodd.mail.EmailUtil.NO_NAME;
+import static jodd.mail.EmailUtil.sanitizeFileName;
 
 /**
  * Helper class for convenient {@link EmailAttachment} creation.
@@ -229,7 +230,7 @@ public class EmailAttachmentBuilder {
 			if (dataSource instanceof FileDataSource) {
 				fds = (FileDataSource) dataSource;
 			} else {
-				final File file = new File(attachmentStorage, messageId);
+				final File file = new File(attachmentStorage, sanitizeFileName(messageId));
 				FileUtil.writeStream(file, dataSource.getInputStream());
 				fds = new FileDataSource(file);
 			}

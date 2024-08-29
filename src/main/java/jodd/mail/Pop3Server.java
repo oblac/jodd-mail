@@ -95,10 +95,12 @@ public class Pop3Server extends MailServer<ReceiveMailSession> {
 	@Override
 	public ReceiveMailSession createSession() {
 		return EmailUtil.createSession(
-				PROTOCOL_POP3,
-				createSessionProperties(),
-				authenticator,
-				attachmentStorage, debugConsumer);
+			PROTOCOL_POP3,
+			createSessionProperties(),
+			authenticator,
+			attachmentStorage,
+			debugConsumer
+		);
 	}
 
 }

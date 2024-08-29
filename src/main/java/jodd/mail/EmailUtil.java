@@ -225,4 +225,8 @@ public class EmailUtil {
 		return true;
 	}
 
+	public static String sanitizeFileName(final String fileName) {
+		return fileName.replaceAll("[^a-zA-Z0-9.-]", "_");
+	}
+
 }
