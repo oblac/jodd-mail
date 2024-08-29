@@ -37,7 +37,7 @@ public class SmtpSslServer extends SmtpServer {
 	/**
 	 * Default SMTP SSL port.
 	 */
-	protected static final int DEFAULT_SSL_PORT = 465;
+	public static final int DEFAULT_SSL_PORT = 465;
 
 	public SmtpSslServer(final Builder builder) {
 		super(builder, DEFAULT_SSL_PORT);
