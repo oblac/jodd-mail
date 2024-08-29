@@ -2,6 +2,7 @@ package jodd.mail;
 
 import jakarta.mail.FetchProfile;
 import jakarta.mail.Flags;
+import jakarta.mail.Folder;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 
@@ -40,10 +41,13 @@ public class ReceivedEmails {
 		}
 	}
 
+	@SuppressWarnings("t")
 	private ReceivedEmail[] _fetch() throws MessagingException {
 		if (messages.length == 0) {
 			return ReceivedEmail.EMPTY_ARRAY;
 		}
+
+		final boolean isReadOnly = session.folder.getMode() == Folder.READ_ONLY;
 
 		if (envelope) {
 			final FetchProfile fetchProfile = new FetchProfile();
@@ -64,16 +68,22 @@ public class ReceivedEmails {
 
 			if (!EmailUtil.isEmptyFlags(flagsToSet)) {
 				emails[i].flags(flagsToSet);
-				msg.setFlags(flagsToSet, true);
+				if (!isReadOnly) {
+					msg.setFlags(flagsToSet, true);
+				}
 			}
 
 			if (!EmailUtil.isEmptyFlags(flagsToUnset)) {
 				emails[i].flags().remove(flagsToUnset);
-				msg.setFlags(flagsToUnset, false);
+				if (!isReadOnly) {
+					msg.setFlags(flagsToUnset, false);
+				}
 			}
 
 			if (EmailUtil.isEmptyFlags(flagsToSet) && !emails[i].isSeen()) {
-				msg.setFlag(Flags.Flag.SEEN, false);
+				if (!isReadOnly) {
+					msg.setFlag(Flags.Flag.SEEN, false);
+				}
 			}
 		}
 
@@ -82,7 +92,7 @@ public class ReceivedEmails {
 		}
 
 		// if messages were marked to be deleted, we need to expunge the folder
-		if (!EmailUtil.isEmptyFlags(flagsToSet)) {
+		if (!EmailUtil.isEmptyFlags(flagsToSet) && !isReadOnly) {
 			if (flagsToSet.contains(Flags.Flag.DELETED)) {
 				session.folder.expunge();
 			}
