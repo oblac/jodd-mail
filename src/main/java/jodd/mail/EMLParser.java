@@ -116,7 +116,7 @@ public class EMLParser extends EMLProperties<EMLParser> {
 	 * @return {@link ReceivedEmail}.
 	 * @throws MessagingException if {@link MimeMessage} cannot be created.
 	 */
-	protected ReceivedEmail parse(final InputStream emlContentInputStream) throws MessagingException {
+	public ReceivedEmail parse(final InputStream emlContentInputStream) throws MessagingException {
 		if (getSession() == null) {
 			createSession(getProperties());
 		}
